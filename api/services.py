@@ -33,14 +33,20 @@ class MutantService:
 
     @staticmethod
     def verify_diagonal(adn):
-        x = len(adn[0])
-        y = len(adn) -1
+        fadn = np.flip(adn, 0)
         diags = []
-        for i in range(y * -1, 0):
-            diags.append(np.diagonal(adn, i, -1, 0))
-        for i in range(0, x):
-            diags.append(np.diagonal(adn, i, -1, 0))
+        fdiags = []
 
-        print(diags)
+        # X
+        for i in range((len(adn) -1) * -1, 0):
+            diags.append(np.diagonal(adn, i))
+            fdiags.append(np.diagonal(fadn, i))
+
+        # Y
+        for i in range(len(adn[0])):
+            diags.append(np.diagonal(adn, i))
+            fdiags.append(np.diagonal(fadn, i))
+
+        print(fdiags)
 
         return False
