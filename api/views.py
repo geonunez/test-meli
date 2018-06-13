@@ -12,11 +12,13 @@ from .serializers import MutantSerializer
 class MutantViewSet(ViewSet):
 
     def verify(self, request):
-        serializer = MutantSerializer(request.data)
-        data = serializer.data;
-        print(data)
+        serializer = MutantSerializer(data=request.data)
+        if serializer.is_valid():
+            adn = serializer.data["adn"]
 
-        if MutantService.is_mutant(data.adn):
-            return Response(status=status.HTTP_200_OK)
-        else:
-            return Response(status=status.HTTP_403_FORBIDDEN)
+            if MutantService.is_mutant(adn):
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_403_FORBIDDEN)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
