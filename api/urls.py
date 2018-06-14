@@ -1,6 +1,8 @@
-'''
+# -*- coding: utf-8 -*-
+
+"""
 Api's Urls
-'''
+"""
 
 from django.conf.urls import url
 
