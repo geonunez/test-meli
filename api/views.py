@@ -10,15 +10,14 @@ from .services import MutantService
 from .serializers import MutantSerializer
 
 class MutantViewSet(ViewSet):
+    mutantService = MutantService()
 
-    def verify(self, request):
+    def is_mutant(self, request):
         serializer = MutantSerializer(data=request.data)
         if serializer.is_valid():
             adn = serializer.data["adn"]
 
-            if MutantService.is_mutant(adn):
+            if self.mutantService.is_mutant(adn):
                 return Response(status=status.HTTP_200_OK)
-            else:
-                return Response(status=status.HTTP_403_FORBIDDEN)
 
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_403_FORBIDDEN)

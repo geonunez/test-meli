@@ -8,6 +8,6 @@ from .views import MutantViewSet
 
 urlpatterns = [
     url(r'^mutant$', MutantViewSet.as_view({
-        'post': 'verify'
+        'post': 'is_mutant'
     })),
 ]

@@ -1,6 +1,20 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.test import TestCase
 
-# Create your tests here.
+from .services import MutantService
+
+class MutantTestCase(TestCase):
+
+    mutantService = MutantService()
+
+    def test_mutant(self):
+        adns = [
+            # two in horizontal
+            ['AAAAGA', 'CCCCGC', 'TTATGT', 'AGAAGG', 'CCCCTA', 'TCACTG'],
+            ['ATGCGA', 'CAGTGC', 'TTATGT', 'AGAAGG', 'CCCCTA', 'TCACTG'],
+        ]
+
+        for adn in adns:
+            response = self.mutantService.is_mutant(adn)
+            self.assertEqual(response, True)
+
+
