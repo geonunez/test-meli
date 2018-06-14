@@ -1,20 +1,73 @@
 from django.test import TestCase
 
-from .services import MutantService
+from rest_framework import status
+from rest_framework.test import APIClient
 
 class MutantTestCase(TestCase):
 
-    mutantService = MutantService()
+    client = APIClient()
 
     def test_mutant(self):
         adns = [
-            # two in horizontal
-            ['AAAAGA', 'CCCCGC', 'TTATGT', 'AGAAGG', 'CCCCTA', 'TCACTG'],
-            ['ATGCGA', 'CAGTGC', 'TTATGT', 'AGAAGG', 'CCCCTA', 'TCACTG'],
+            # two or more in horizontal
+            [
+                'AAAA',
+                'CCGC',
+                'TTTT',
+                'AGAG'
+            ],
+            [
+                'ACGA',
+                'TTTT',
+                'CCCC',
+                'AAAA'
+            ],
+            [
+                'TTTT',
+                'GGGG',
+                'AAAA',
+                'CCCC'
+            ],
+            [
+                'TATTCA',
+                'TTAAAA',
+                'GGGGTA',
+                'TCAGCA',
+                'CTAGAG',
+                'TCCCAG'
+            ],
+            # two or more in vertical
+            [
+                'AATA',
+                'ACTC',
+                'ATTT',
+                'AGTG'
+            ],
+            [
+                'TGGT',
+                'TGGT',
+                'AGGA',
+                'CGGC'
+            ],
+            [
+                'ACAA',
+                'ACAA',
+                'AGAA',
+                'ATAA'
+            ],
+            # two or more in diagonal
+            [
+                'CCGTTG',
+                'CAGGAG',
+                'TGACGT',
+                'GGGACG',
+                'TTTGAT',
+                'TGAAGC'
+            ],
         ]
 
         for adn in adns:
-            response = self.mutantService.is_mutant(adn)
-            self.assertEqual(response, True)
+            response = self.client.post('/api/v1/mutant', {'adn': adn}, format='json')
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
