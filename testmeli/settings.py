@@ -26,7 +26,8 @@ SECRET_KEY = 'a*+v9_-&u6s#pvxx9ykjke6pnqi^mk=anz-8y@61b$m(7-@2ax'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost'
+    'serene-earth-96012.herokuapp.com',
+    'localhost',
 ]
 
 
