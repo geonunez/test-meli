@@ -81,12 +81,8 @@ WSGI_APPLICATION = 'testmeli.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dtpb9eike046o',
-        'USER': 'gtuhzxvgvxrupu',
-        'PASSWORD': '0110cb329063178709c039d70831aa7e8c2c2a2bcc0d31807e30a3bfd68ed07d',
-        'HOST': 'ec2-54-204-18-53.compute-1.amazonaws.com',
-        'POST': '5432'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -137,3 +133,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+# Configure Django App for Heroku.
+import django_heroku
+django_heroku.settings(locals())
