@@ -3,7 +3,8 @@
 """
     Api's views
 """
-
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
@@ -35,22 +36,23 @@ class HumanViewSet(ViewSet):
         # I would have preferred to return a HTTP_400_BAD_REQUEST, but the challenge said 403
         return Response(status=status.HTTP_403_FORBIDDEN)
 
+    @method_decorator(cache_page(10))
     def stats(self, request):
         humans = Human.objects.all()
+
         total = humans.count()
-        mutants = 0
-        for human in humans:
-            if human.is_mutant:
-                mutants += 1
-        humans = total - mutants
+        count_mutant_dna = count_human_dna = radio = 0
 
+        if total > 0:
+            for human in humans:
+                count_mutant_dna += 1 if human.is_mutant else 0
+            count_human_dna = total - count_mutant_dna
+            radio = count_mutant_dna / total
 
-        data = { \
-            'count_mutant_dna': mutants, \
-            'count_human_dna': humans, \
-            'radio': humans / mutants
-        }
-
-        serializer = StatsSerializer(data)
+        serializer = StatsSerializer({ \
+            'count_mutant_dna': count_mutant_dna, \
+            'count_human_dna': count_human_dna, \
+            'radio': radio \
+        })
 
         return Response(serializer.data, status=status.HTTP_200_OK)
