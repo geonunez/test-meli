@@ -5,11 +5,11 @@ from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APIClient
 
-class MutantTestCase(TestCase):
+class HumanTestCase(TestCase):
 
 
     def test_invalid_parameters(self):
-        adns = [
+        dnas = [
             # Not has then minimun len
             [
                 'AAA',
@@ -53,13 +53,13 @@ class MutantTestCase(TestCase):
             ]
         ]
 
-        for adn in adns:
+        for dna in dnas:
             client = APIClient()
-            response = client.post('/api/v1/mutant', { 'adn': adn }, format='json')
+            response = client.post('/api/v1/mutant', { 'dna': dna }, format='json')
             self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_mutant(self):
-        adns = [
+        dnas = [
             # two or more in horizontal
             [
                 'AAAA',
@@ -117,9 +117,9 @@ class MutantTestCase(TestCase):
             ],
         ]
 
-        for adn in adns:
+        for dna in dnas:
             client = APIClient()
-            response = client.post('/api/v1/mutant', { 'adn': adn }, format='json')
+            response = client.post('/api/v1/mutant', { 'dna': dna }, format='json')
             self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
