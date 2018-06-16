@@ -56,18 +56,18 @@ class HumanViewSet(GenericViewSet):
         humans = Human.objects.all()
 
         total = humans.count()
-        count_mutant_dna = count_human_dna = radio = 0
+        count_mutant_dna = count_human_dna = ratio = 0
 
         if total > 0:
             for human in humans:
                 count_mutant_dna += 1 if human.is_mutant else 0
             count_human_dna = total - count_mutant_dna
-            radio = count_mutant_dna / total
+            ratio = count_mutant_dna / total
 
         serializer = StatsSerializer({ \
             'count_mutant_dna': count_mutant_dna, \
             'count_human_dna': count_human_dna, \
-            'radio': radio \
+            'ratio': ratio \
         })
 
         return Response(serializer.data, status=status.HTTP_200_OK)

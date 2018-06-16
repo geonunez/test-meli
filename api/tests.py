@@ -112,7 +112,7 @@ class HumanTestCase(TestCase):
 
         self.assertEqual(data['count_mutant_dna'], 0)
         self.assertEqual(data['count_human_dna'], 0)
-        self.assertEqual(data['radio'], 0.0)
+        self.assertEqual(data['ratio'], 0.0)
 
         # Populate the db
         dnas = [
@@ -138,7 +138,7 @@ class HumanTestCase(TestCase):
 
         self.assertEqual(data['count_mutant_dna'], 0)
         self.assertEqual(data['count_human_dna'], 0)
-        self.assertEqual(data['radio'], 0.0)
+        self.assertEqual(data['ratio'], 0.0)
 
         # Wait until the cache expires
         time.sleep(10)
@@ -146,6 +146,6 @@ class HumanTestCase(TestCase):
 
         self.assertEqual(data['count_mutant_dna'], 4)
         self.assertEqual(data['count_human_dna'], 6)
-        self.assertEqual(data['radio'], 0.4)
+        self.assertEqual(data['ratio'], 0.4)
 
 

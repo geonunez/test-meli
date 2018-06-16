@@ -25,4 +25,4 @@ class HumanSerializer(serializers.Serializer):
 class StatsSerializer(serializers.Serializer):
     count_mutant_dna = serializers.IntegerField()
     count_human_dna = serializers.IntegerField()
-    radio = serializers.FloatField()
+    ratio = serializers.FloatField()
