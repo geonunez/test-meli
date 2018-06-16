@@ -58,9 +58,11 @@ $ curl -X POST \
 	"dna": ["ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"]
 }'
 ```
+Responde 200 en caso de detectar a un mutante o 403 en caso contrario.
+
 - **[GET] api/v1/stats**
 Muestra estadísticas sobre los humanos y mutantes analizados.
-***Este endpoint dispone de una cache corto (10 segundos) con el fin de evitar sobrecargas momentos de alta concurrecia.***
+***Este endpoint dispone de una cache corto (10 segundos) con el fin de evitar sobrecargas en momentos de alta concurrecia.***
 *Ejemplo:*
 ```sh
 curl -X GET \
