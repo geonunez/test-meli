@@ -60,6 +60,7 @@ $ curl -X POST \
 ```
 - **[GET] api/v1/stats**
 Muestra estadísticas sobre los humanos y mutantes analizados.
+***Este endpoint dispone de una cache corto (10 segundos) con el fin de evitar sobrecargas momentos de alta concurrecia.***
 *Ejemplo:*
 ```sh
 curl -X GET \
