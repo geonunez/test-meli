@@ -48,7 +48,7 @@ python manage.py runserver
 
 ### Endpoints
 - **[POST] api/v1/mutant**
-Permite verificar si una secuencia de ADN pertenece o no a un mutante.
+Permite verificar si una secuencia de ADN pertenece o no a un mutante, guardando los resultados para evitar re-analizar secuencias y poder generar estadísticas.
 *Ejemplo:*
 ```sh
 $ curl -X POST \
