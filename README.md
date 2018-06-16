@@ -58,7 +58,7 @@ $ curl -X POST \
 	"dna": ["ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"]
 }'
 ```
-Responde 200 en caso de detectar a un mutante o 403 en caso contrario.
+*Responde 200 en caso de detectar a un mutante o 403 en caso contrario.*
 
 - **[GET] api/v1/stats**
 Muestra estadísticas sobre los humanos y mutantes analizados.
