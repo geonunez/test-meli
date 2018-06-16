@@ -2,10 +2,13 @@
 
 import numpy as np
 
+from .models import Human
+
 class HumanService:
     """
-    Mutant Services
+    Human Services
     """
+
     MUTATIONS = ['AAAA','TTTT', 'CCCC', 'GGGG']
     SEQUENCES_NEED_IT = 1
 
@@ -76,3 +79,34 @@ class HumanService:
                 count += ''.join(np.diagonal(dna, i)).count(mutation)
 
         return count
+
+    def verify(self, dna):
+        s_dna = ''.join(dna)
+
+        try:
+            human = Human.objects.get(dna=s_dna)
+        except Human.DoesNotExist:
+            is_mutant = self.is_mutant(dna)
+            human = Human.objects.create(dna=s_dna, is_mutant=is_mutant)
+
+        return human
+
+    def get_stats(self):
+        humans = Human.objects.all()
+
+        total = humans.count()
+        count_mutant_dna = count_human_dna = ratio = 0
+
+        if total > 0:
+            for human in humans:
+                count_mutant_dna += 1 if human.is_mutant else 0
+            count_human_dna = total - count_mutant_dna
+
+            # For me the right formula is count_mutant_dna / total
+            ratio = (count_mutant_dna / count_human_dna if count_human_dna > 0 else 0)
+
+        return { \
+            'count_mutant_dna': count_mutant_dna, \
+            'count_human_dna': count_human_dna, \
+            'ratio': ratio \
+        }

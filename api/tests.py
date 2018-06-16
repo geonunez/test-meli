@@ -8,6 +8,16 @@ from rest_framework.test import APIClient
 
 from .models import Human
 
+class IndexTextCase(TestCase):
+    client = APIClient()
+
+    def test_index(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertJSONEqual(response.content, { \
+            'title': 'Geonunez Test Meli' \
+        })
+
 class HumanTestCase(TestCase):
     client = APIClient()
 
@@ -112,7 +122,7 @@ class HumanTestCase(TestCase):
 
         self.assertEqual(data['count_mutant_dna'], 0)
         self.assertEqual(data['count_human_dna'], 0)
-        self.assertEqual(data['ratio'], 0.0)
+        self.assertEqual(data['ratio'], 0)
 
         # Populate the db
         dnas = [
@@ -124,7 +134,6 @@ class HumanTestCase(TestCase):
             ['ACGA', 'TATT', 'TCAC', 'ACAA'], # ↘
             ['ACGA', 'TCAT', 'TACC', 'ACAA'], # ↗
             # Mutans
-            ['AAAA', 'CCGC', 'TTTT', 'AGAG'],
             ['AATA', 'ACTC', 'ATTT', 'AGTG'],
             ['CCGTTG','CAGGAG','TGACGT','GGGACG','TTTGAT','TGAAGC'],
             ['CCGTTG', 'CAGTAG', 'TGTCGT', 'GTGGCG', 'TTGGTT', 'TGAAGC'],
@@ -138,14 +147,14 @@ class HumanTestCase(TestCase):
 
         self.assertEqual(data['count_mutant_dna'], 0)
         self.assertEqual(data['count_human_dna'], 0)
-        self.assertEqual(data['ratio'], 0.0)
+        self.assertEqual(data['ratio'], 0)
 
         # Wait until the cache expires
         time.sleep(10)
         data = self.client.get('/api/v1/stats').data
 
-        self.assertEqual(data['count_mutant_dna'], 4)
+        self.assertEqual(data['count_mutant_dna'], 3)
         self.assertEqual(data['count_human_dna'], 6)
-        self.assertEqual(data['ratio'], 0.4)
+        self.assertEqual(data['ratio'], 0.5)
 
 

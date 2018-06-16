@@ -11,18 +11,18 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from .models import Human
 from .services import HumanService
 from .serializers import HumanSerializer, StatsSerializer
 
 class IndexViewSet(GenericViewSet):
     def index(self, request):
-        return JsonResponse({'title':'Geonunez Test-meli'})
+        return JsonResponse({'title':'Geonunez Test Meli'})
 
 class HumanViewSet(GenericViewSet):
     """
-    Human endpoints
+    Human ViewSet
     """
+
     serializer_class = HumanSerializer
     humanService = HumanService()
 
@@ -33,13 +33,8 @@ class HumanViewSet(GenericViewSet):
         serializer = HumanSerializer(data=request.data)
         if serializer.is_valid():
             dna = serializer.data["dna"]
-            s_dna = ''.join(dna)
 
-            try:
-                human = Human.objects.get(dna=s_dna)
-            except Human.DoesNotExist:
-                is_mutant = self.humanService.is_mutant(dna)
-                human = Human.objects.create(dna=s_dna, is_mutant=is_mutant)
+            human = self.humanService.verify(dna)
 
             return Response(status= \
                 status.HTTP_200_OK if human.is_mutant else status.HTTP_403_FORBIDDEN \
@@ -53,21 +48,8 @@ class HumanViewSet(GenericViewSet):
         """
         Shows the human stats.
         """
-        humans = Human.objects.all()
+        stats = self.humanService.get_stats()
 
-        total = humans.count()
-        count_mutant_dna = count_human_dna = ratio = 0
-
-        if total > 0:
-            for human in humans:
-                count_mutant_dna += 1 if human.is_mutant else 0
-            count_human_dna = total - count_mutant_dna
-            ratio = count_mutant_dna / total
-
-        serializer = StatsSerializer({ \
-            'count_mutant_dna': count_mutant_dna, \
-            'count_human_dna': count_human_dna, \
-            'ratio': ratio \
-        })
+        serializer = StatsSerializer(stats)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
