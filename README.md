@@ -1,7 +1,7 @@
 Geonunez - Test Meli
 ====================
-## Nota
-Este proyecto es para aplicar a una vacante de trabajo. Algunos aspectos son tomadas por sentado.
+### Nota
+**Este proyecto es para aplicar a una vacante de trabajo. Algunos aspectos son tomadas por sentado.**
 
 ### Dominio de prueba
 La aplicación fue preparada y desplegada en la plataforma heroku. La misma se encuentra disponible temporalmente en el dominio:
