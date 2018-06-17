@@ -50,7 +50,7 @@ class HumanService:
 
     def _convert_to_bidimensional(self, dna):
         """
-        Converts a one dimentional list to a bidimensional list
+        Converts a one dimensional list to a bidimensional list
         E.g: ['AB', 'CD'] → [['A', 'B'], ['C', 'D']]
         """
         bidimensional = []
