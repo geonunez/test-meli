@@ -9,6 +9,10 @@ from rest_framework.test import APIClient
 from .models import Human
 
 class IndexTextCase(TestCase):
+    """
+    Index test.
+    """
+
     client = APIClient()
 
     def test_index(self):
@@ -19,6 +23,10 @@ class IndexTextCase(TestCase):
         })
 
 class HumanTestCase(TestCase):
+    """
+    Human test.
+    """
+
     client = APIClient()
 
     def test_invalid_parameters(self):

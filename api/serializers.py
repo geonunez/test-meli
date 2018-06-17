@@ -4,6 +4,10 @@ from __future__ import unicode_literals
 from rest_framework import serializers
 
 class HumanSerializer(serializers.Serializer):
+    """
+    Human Serializer.
+    """
+
     dna = serializers.ListField(required=True)
 
     def validate_dna(self, value):
@@ -23,6 +27,9 @@ class HumanSerializer(serializers.Serializer):
         return value
 
 class StatsSerializer(serializers.Serializer):
+    """
+    Stats Serializer.
+    """
     count_mutant_dna = serializers.IntegerField()
     count_human_dna = serializers.IntegerField()
     ratio = serializers.FloatField()

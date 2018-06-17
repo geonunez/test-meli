@@ -6,15 +6,31 @@ from .models import Human
 
 class HumanService:
     """
-    Human Services
+    Human Services.
     """
 
     MUTATIONS = ['AAAA','TTTT', 'CCCC', 'GGGG']
     SEQUENCES_NEED_IT = 1
 
-    def is_mutant(self, dna):
-        mutations_count = self._count_in_horizontal(dna)
+    def verify(self, dna):
+        """
+        Verifies if a dna is a mutant one or not.
+        """
+        s_dna = ''.join(dna)
 
+        try:
+            human = Human.objects.get(dna=s_dna)
+        except Human.DoesNotExist:
+            is_mutant = self.is_mutant(dna)
+            human = Human.objects.create(dna=s_dna, is_mutant=is_mutant)
+
+        return human
+
+    def is_mutant(self, dna):
+        """
+        Challenge 1 algorithm.
+        """
+        mutations_count = self._count_in_horizontal(dna)
 
         if (mutations_count > self.SEQUENCES_NEED_IT):
             return True
@@ -33,6 +49,10 @@ class HumanService:
             return False
 
     def _convert_to_bidimensional(self, dna):
+        """
+        Converts a one dimentional list to a bidimensional list
+        E.g: ['AB', 'CD'] → [['A', 'B'], ['C', 'D']]
+        """
         bidimensional = []
         for sequence in dna:
             bidimensional.append(list(sequence))
@@ -40,6 +60,9 @@ class HumanService:
         return bidimensional
 
     def _count_in_horizontal(self, dna):
+        """
+        Counts horizontal mutations sequence.
+        """
         count = 0
 
         for sequence in dna:
@@ -49,6 +72,9 @@ class HumanService:
         return count
 
     def _count_in_vertical(self, dna):
+        """
+        Counts vertical mutations sequence.
+        """
         count = 0
         dna = np.transpose(dna)
 
@@ -59,11 +85,14 @@ class HumanService:
         return count
 
     def _count_in_diagonal(self, dna):
+        """
+        Counts diagonal mutations sequence.
+        """
         count = 0
         hight = len(dna) - 1
         width = len(dna[0])
 
-        # ↘
+        # ↘ direction
         for i in range(hight * -1, width):
             for mutation in self.MUTATIONS:
                 count += ''.join(np.diagonal(dna, i)).count(mutation)
@@ -71,7 +100,7 @@ class HumanService:
         if count > self.SEQUENCES_NEED_IT:
             return count
 
-        # ↗
+        # ↗ direction
         dna = np.flip(dna, 0)
 
         for i in range(hight * -1, width):
@@ -80,18 +109,10 @@ class HumanService:
 
         return count
 
-    def verify(self, dna):
-        s_dna = ''.join(dna)
-
-        try:
-            human = Human.objects.get(dna=s_dna)
-        except Human.DoesNotExist:
-            is_mutant = self.is_mutant(dna)
-            human = Human.objects.create(dna=s_dna, is_mutant=is_mutant)
-
-        return human
-
     def get_stats(self):
+        """
+        Gets the humans vs mutants stats.
+        """
         humans = Human.objects.all()
 
         total = humans.count()
